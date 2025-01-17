@@ -414,6 +414,17 @@ function convertIBSheet7ToIBSheet8(){
     resultCode = resultCode.replace(/⁂/g,"\"");
 
     document.querySelector("#ccode").innerHTML = resultCode;
+
+    // 소스코드 클립보드 복사
+    navigator.clipboard.writeText(document.querySelector("#ccode").textContent);
+    Swal.fire({
+        title: 'information',
+        text: '변환 소스가 clipboard에 복사 되었습니다.',
+        icon: 'information',
+        timer: 1300,
+        confirmButtonText: 'OK'
+      })
+
     hljs.highlightAll();
 }
 //컬럼에서 Header, Type, Name, Format 순으로 정렬하려고 넣음
