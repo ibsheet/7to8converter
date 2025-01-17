@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ibsheet7 migration tool</title>
+    <link rel="stylesheet" href="./assets/css/style.css"/>
+    <link rel="stylesheet" href="./assets/vendors/rSlider/rSlider.min.css"/>
+    <script src="./assets/vendors/rSlider/rSlider.min.js"></script>
+    <script src="./assets/js/ibsheetinfo.js"></script>
+    <script src="./assets/js/ibsheet7to8Convert.js"></script>
+    <script src="./assets/js/contents.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/split-grid/dist/split-grid.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/monokai-sublime.min.css" integrity="sha512-ade8vHOXH67Cm9z/U2vBpckPD1Enhdxl3N05ChXyFx5xikfqggrK4RrEele+VWY/iaZyfk7Bhk6CyZvlh7+5JQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" integrity="sha512-EBLzUL8XLl+va/zAsmXwS7Z2B1F9HUHkZwyS/VKwh3S7T/U0nF4BaU29EP/ZSf6zgiIxYAnKLu6bJ8dqpmX5uw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- and it's easy to individually load additional languages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/javascript.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="infoButton">
+            <div>
+                <label>ibsheet id : <input type="text" id="sheetID"/></label>
+                <label>initObject : <input type="text" id="initObj"/></label>
+                <label>EL : <input type="text" id="elObj"/></label>
+            </div>
+            <div>
+                <input type="text" id="sampleSlider" />
+                <button type='button' onclick='convertIBSheet7ToIBSheet8()'>초기화 변환</button>
+                <button type='button' onclick='convertFunction()'>함수 변환</button>
+            </div>
+        </div>
+        <div class="grid">
+            <!-- legacy code-->
+            <div>
+                <textarea id='lcode' onchange='legacyCodeTrim();findSheetId()' placeholder="original code">
+                with(mySheet){
+          
+                  SetConfig( { SearchMode:2, MergeSheet:0, Page:100, FrozenCol:9, DataRowMerge:0 } );
+                  var info    = { Sort:1, ColMove:1, HeaderCheck:1, ColResize:1 };
+                  var headers = [ { Text:"NO|<%=mlang.get("G_STATUS")%>|<%=mlang.get("PROJECT_CD")%>"
+                              +"|<%=mlang.get("PROJECT_NO")%>|<%=mlang.get("SM_PJT_NO")%>|<%=mlang.get("ECO_NO")%>"
+                              +"|<%=mlang.get("CUST_ITEM_CD")%>|<%=mlang.get("SL_ITEM_CD")%>|<%=mlang.get("PROJECT_NM")%>"
+                              +"|<%=mlang.get("CUSTOMER")%>|<%=mlang.get("PROJECT")%>|<%=mlang.get("YPROD_QTY")%>"
+                              +"|<%=mlang.get("PROD_DT")%>|<%=mlang.get("DEV_STEP2")%>|<%=mlang.get("Fix")%>"
+                              +"|<%=mlang.get("SUB_ITEM")%>|<%=mlang.get("ITEM")%>|<%=mlang.get("PROD_VEND",2)%>"
+                              +"|<%=mlang.get("RMKS")%>|<%=mlang.get("PROJECT_FIX_YN")%>|<%=mlang.get("BOM_COMPL")%>"
+                              +"|<%=mlang.get("COST_COMPL1")%>|<%=mlang.get("UPD_DT")%>|<%=mlang.get("WRITER")%>"
+                              +"|<%=mlang.get("PLAN_DEPT")%>|<%=mlang.get("PLAN_DEPT_FIN_DT")%>|<%=mlang.get("ACCEPT_YN")%>|<%=mlang.get("APP_DT")%>|<%=mlang.get("APP_USER")%>", Align:"Center"} ];
+                  InitHeaders(headers, info);
+                  var cols = [ {Type:"Seq",       Hidden:0, Width:30,   Align:"Right",   ColMerge:0,   SaveName:"NO" },
+                               {Type:"Status",    Hidden:1, Width:0,    Align:"Center",  ColMerge:0,   SaveName:"SSTATUS" },
+                               {Type:"Text",      Hidden:1, Width:0,    Align:"Left",    ColMerge:0,   SaveName:"PJT_CD" },
+                               {Type:"Text",      Hidden:0, Width:100,  Align:"Left",    ColMerge:0,   SaveName:"PJT_ECO" , Sort:0},
+                               {Type:"Text",      Hidden:0, Width:110,  Align:"Left",    ColMerge:0,   SaveName:"PMS_PROJECTNO" },
+                               {Type:"Text",      Hidden:1, Width:55,   Align:"Center",  ColMerge:0,   SaveName:"ECO_NO" },
+                               {Type:"Text",      Hidden:1, Width:80,   Align:"Left",    ColMerge:0,   SaveName:"CUST_ITEM_CD" },
+                               {Type:"Text",      Hidden:1, Width:70,   Align:"Left",    ColMerge:0,   SaveName:"SL_ITEM_CD" },
+                               {Type:"Text",      Hidden:0, Width:200,  Align:"Left",    ColMerge:0,   SaveName:"PROJECT_NM",           KeyField:1 },
+                               {Type:"Combo",     Hidden:0, Width:70,   Align:"Center",  ColMerge:0,   SaveName:"BUY_VEND_CD",          KeyField:1 },
+                               {Type:"Combo",     Hidden:0, Width:70,   Align:"Left",    ColMerge:0,   SaveName:"PJT_NM",               KeyField:1 },
+                               {Type:"Text",      Hidden:1, Width:0,    Align:"Left",    ColMerge:0,   SaveName:"YPROD_QTY" },
+                               {Type:"Text",      Hidden:1, Width:0,    Align:"Left",    ColMerge:0,   SaveName:"MS_PROD_DT" },
+                               {Type:"Combo",     Hidden:0, Width:80,   Align:"Left",    ColMerge:0,   SaveName:"DEV_STEP",             KeyField:1 },
+                               {Type:"Text",      Hidden:0, Width:28,   Align:"Center",  ColMerge:0,   SaveName:"DEV_STEP_FIX" },
+                               {Type:"Combo",     Hidden:0, Width:60,   Align:"Left",    ColMerge:0,   SaveName:"ITEM",                 KeyField:1 },
+                               {Type:"Combo",     Hidden:0, Width:90,   Align:"Left",    ColMerge:0,   SaveName:"SUB_ITEM",             KeyField:1 },
+                               {Type:"Text",      Hidden:1, Width:0,    Align:"Left",    ColMerge:0,   SaveName:"MAKE_VEND_CD" },
+                               {Type:"Text",      Hidden:1, Width:0,    Align:"Left",    ColMerge:0,   SaveName:"RMKS" },
+                               {Type:"Text",      Hidden:1, Width:0,    Align:"Left",    ColMerge:0,   SaveName:"PJT_FIX" },
+                               {Type:"Text",      Hidden:0, Width:60,   Align:"Center",  ColMerge:0,   SaveName:"BOM_FINISH" },
+                               {Type:"Text",      Hidden:0, Width:60,   Align:"Center",  ColMerge:0,   SaveName:"CAL_FINISH" },
+                               {Type:"Text",      Hidden:0, Width:75,   Align:"Center",  ColMerge:0,   SaveName:"UPD_DT" },
+                               {Type:"Text",      Hidden:0, Width:50,   Align:"Center",  ColMerge:0,   SaveName:"WRITER" },
+                               {Type:"Text",      Hidden:0, Width:55,   Align:"Center",  ColMerge:0,   SaveName:"DEV_USER_NM" },
+                               {Type:"Text",      Hidden:0, Width:75,   Align:"Center",  ColMerge:0,   SaveName:"DEV_USER_UPD_DT" },
+                               {Type:"Text",      Hidden:0, Width:30,   Align:"Center",  ColMerge:0,   SaveName:"ORDER_YN" },
+                               {Type:"Text",      Hidden:0, Width:75,   Align:"Center",  ColMerge:0,   SaveName:"CONFIRM_DT" },
+                               {Type:"Text",      Hidden:0, Width:50,   Align:"Center",  ColMerge:0,   SaveName:"CONFIRM_USER" },
+                               {Type:"Text",      Hidden:1, Width:50,   Align:"Center",  ColMerge:0,   SaveName:"PMS_PROJECTID" },
+                               {Type:"Text",      Hidden:1, Width:0,    Align:"Left",    ColMerge:0,   SaveName:"BOM_FINISH_FLAG" },
+                               {Type:"Text",      Hidden:1, Width:0,    Align:"Left",    ColMerge:0,   SaveName:"CRT_USER_ID" },
+                               {Type:"Text",      Hidden:1, Width:0,    Align:"Left",    ColMerge:0,   SaveName:"UPD_USER_ID" },
+                               {Type:"Text",      Hidden:1, Width:50,   Align:"Left",    ColMerge:0,   SaveName:"START_DT_1" },
+                               {Type:"Text",      Hidden:1, Width:50,   Align:"Left",    ColMerge:0,   SaveName:"ETC_RMKS_1" },
+                               {Type:"Text",      Hidden:1, Width:50,   Align:"Left",    ColMerge:0,   SaveName:"BOM_FIN_DESIGN_USER" },
+                               {Type:"Text",      Hidden:1, Width:50,   Align:"Left",    ColMerge:0,   SaveName:"BOM_FIN_DESIGN_DT" } ];
+                   
+                   InitColumns(cols);
+                   SetEditable(0);
+                   SetColProperty("BUY_VEND_CD", {ComboText:"|<%=combo_buyvend.getIBComboData(1)%>", ComboCode:"|<%=combo_buyvend.getIBComboData(0)%>"} );
+                   SetColProperty("PJT_NM", {ComboText:"|<%=combo_pjtcar.getIBComboData(1)%>", ComboCode:"|<%=combo_pjtcar.getIBComboData(0)%>"} );
+                   SetColProperty("DEV_STEP", {ComboText:"|<%=combo_devstep.getIBComboData(1)%>", ComboCode:"|<%=combo_devstep.getIBComboData(0)%>"} );
+                   SetColProperty("ITEM", {ComboText:"|<%=combo_item.getIBComboData(1)%>", ComboCode:"|<%=combo_item.getIBComboData(0)%>"} );
+                   SetColProperty("SUB_ITEM", {ComboText:"|<%=combo_subitem.getIBComboData(1)%>", ComboCode:"|<%=combo_subitem.getIBComboData(0)%>"} );
+                   SetCountPosition(3);<%--pagecountposition--%>
+                   SetPagingPosition(2);<%--page navi position--%>
+                   SetEditableColorDiff(0);//비할성화row 컬러표시X
+                   SetActionMenu("<%=sActionMenu%>");
+                  }
+                </textarea>
+            </div>
+            <!-- button -->
+            <div class="gutter-col gutter-col-1">
+          
+            </div>
+            
+            <!-- converted code-->
+            <div>
+                    <pre>
+                    <code class="language-javascript theme-monokai-sublime" id='ccode' placeholder="convert code"></code>
+                    </pre>
+            </div>
+        </div>
+    </div>
+<script>
+Split({
+    columnGutters: [{
+        track: 1,
+        element: document.querySelector('.gutter-col-1'),
+    }],
+})
+</script>
+</body>
+</html>
