@@ -476,17 +476,27 @@ function IBS_InitSheet(sheetId, createOption){
             tempcol["Desc"] = [];
             for(var item in Cols[c]){
                 
-                if(typeof Cols[c]["InsertEdit"] != "undefined" && !Cols[c]["InsertEdit"] && typeof Cols[c]["UpdateEdit"] != "undefined" && !Cols[c]["UpdateEdit"]){
-                    tempcol["CanEdit"] = 0;
+                if(typeof Cols[c]["InsertEdit"] != "undefined"){
+                    tempcol["AddEdit"] = Cols[c]["InsertEdit"];
+                    delete Cols[c]["InsertEdit"];
                 }
-                if(Cols[c]["InsertEdit"] && !Cols[c]["UpdateEdit"]){
-                    // tempcol["CanEditFormula"] = "Row.Added==1?1:0";
-                    // addCalcOrder(Cols[c]["SaveName"]+"CanEdit");
-                    tempcol["AddEdit"] = 1;
-                    tempcol["CanEdit"] = 0;
+                if(typeof Cols[c]["UpdateEdit"] != "undefined"){
+                    tempcol["ChangeEdit"] = Cols[c]["UpdateEdit"];
+                    delete Cols[c]["UpdateEdit"];
                 }
-                delete Cols[c]["InsertEdit"];
-                delete Cols[c]["UpdateEdit"];
+
+
+                // if(typeof Cols[c]["InsertEdit"] != "undefined" && !Cols[c]["InsertEdit"] && typeof Cols[c]["UpdateEdit"] != "undefined" && !Cols[c]["UpdateEdit"]){
+                //     tempcol["CanEdit"] = 0;
+                // }
+                // if(Cols[c]["InsertEdit"] && !Cols[c]["UpdateEdit"]){
+                //     // tempcol["CanEditFormula"] = "Row.Added==1?1:0";
+                //     // addCalcOrder(Cols[c]["SaveName"]+"CanEdit");
+                //     tempcol["AddEdit"] = 1;
+                //     tempcol["CanEdit"] = 0;
+                // }
+                // delete Cols[c]["InsertEdit"];
+                // delete Cols[c]["UpdateEdit"];
     
                 if( Cols[c].hasOwnProperty(item)){
                     var itemValue =  Cols[c][item];
