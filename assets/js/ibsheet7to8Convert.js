@@ -272,7 +272,7 @@ function myEval(str) {
         if(e.name == "ReferenceError"){
             var newVal = e.message.substring(0, e.message.indexOf(" is not defined"));
             console.log(e.message);
-            window[newVal] = function(){};
+            window[newVal] = "@@"+newVal+"@@";
             return false;
         }else{
             console.log(e.message);
@@ -532,6 +532,8 @@ function IBS_InitSheet(sheetId, createOption){
                                     tempcol["Type"] = "Img";
                                     break;
                                 case "Popup":
+                                case "PopupEdit":
+                                    tempcol["Type"] = "Text";
                                     tempcol["Extend"] = "@@IB_Preset.Popup@@";
                                     break;
                                 case "Seq":
@@ -824,6 +826,8 @@ function IBS_InitSheet(sheetId, createOption){
                         case "PointCount":
                             if((tempcol["Type"]=="Int" || tempcol["Type"] == "Float") &&   itemValue > 0){
                                 tempcol["Format"] = "#,###.".padEnd(6+itemValue,"#");
+                            }else{
+                                tempcol["PointCount"] = itemValue;
                             }
                             break;
                         case "PopupButton":

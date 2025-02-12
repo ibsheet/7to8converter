@@ -37,70 +37,68 @@
             <!-- legacy code-->
             <div>
                 <textarea id='lcode' onchange='legacyCodeTrim();findSheetId()' placeholder="original code">
-                with(mySheet){
-          
-                  SetConfig( { SearchMode:2, MergeSheet:0, Page:100, FrozenCol:9, DataRowMerge:0 } );
-                  var info    = { Sort:1, ColMove:1, HeaderCheck:1, ColResize:1 };
-                  var headers = [ { Text:"NO|<%=mlang.get("G_STATUS")%>|<%=mlang.get("PROJECT_CD")%>"
-                              +"|<%=mlang.get("PROJECT_NO")%>|<%=mlang.get("SM_PJT_NO")%>|<%=mlang.get("ECO_NO")%>"
-                              +"|<%=mlang.get("CUST_ITEM_CD")%>|<%=mlang.get("SL_ITEM_CD")%>|<%=mlang.get("PROJECT_NM")%>"
-                              +"|<%=mlang.get("CUSTOMER")%>|<%=mlang.get("PROJECT")%>|<%=mlang.get("YPROD_QTY")%>"
-                              +"|<%=mlang.get("PROD_DT")%>|<%=mlang.get("DEV_STEP2")%>|<%=mlang.get("Fix")%>"
-                              +"|<%=mlang.get("SUB_ITEM")%>|<%=mlang.get("ITEM")%>|<%=mlang.get("PROD_VEND",2)%>"
-                              +"|<%=mlang.get("RMKS")%>|<%=mlang.get("PROJECT_FIX_YN")%>|<%=mlang.get("BOM_COMPL")%>"
-                              +"|<%=mlang.get("COST_COMPL1")%>|<%=mlang.get("UPD_DT")%>|<%=mlang.get("WRITER")%>"
-                              +"|<%=mlang.get("PLAN_DEPT")%>|<%=mlang.get("PLAN_DEPT_FIN_DT")%>|<%=mlang.get("ACCEPT_YN")%>|<%=mlang.get("APP_DT")%>|<%=mlang.get("APP_USER")%>", Align:"Center"} ];
-                  InitHeaders(headers, info);
-                  var cols = [ {Type:"Seq",       Hidden:0, Width:30,   Align:"Right",   ColMerge:0,   SaveName:"NO" },
-                               {Type:"Status",    Hidden:1, Width:0,    Align:"Center",  ColMerge:0,   SaveName:"SSTATUS" },
-                               {Type:"Text",      Hidden:1, Width:0,    Align:"Left",    ColMerge:0,   SaveName:"PJT_CD" },
-                               {Type:"Text",      Hidden:0, Width:100,  Align:"Left",    ColMerge:0,   SaveName:"PJT_ECO" , Sort:0},
-                               {Type:"Text",      Hidden:0, Width:110,  Align:"Left",    ColMerge:0,   SaveName:"PMS_PROJECTNO" },
-                               {Type:"Text",      Hidden:1, Width:55,   Align:"Center",  ColMerge:0,   SaveName:"ECO_NO" },
-                               {Type:"Text",      Hidden:1, Width:80,   Align:"Left",    ColMerge:0,   SaveName:"CUST_ITEM_CD" },
-                               {Type:"Text",      Hidden:1, Width:70,   Align:"Left",    ColMerge:0,   SaveName:"SL_ITEM_CD" },
-                               {Type:"Text",      Hidden:0, Width:200,  Align:"Left",    ColMerge:0,   SaveName:"PROJECT_NM",           KeyField:1 },
-                               {Type:"Combo",     Hidden:0, Width:70,   Align:"Center",  ColMerge:0,   SaveName:"BUY_VEND_CD",          KeyField:1 },
-                               {Type:"Combo",     Hidden:0, Width:70,   Align:"Left",    ColMerge:0,   SaveName:"PJT_NM",               KeyField:1 },
-                               {Type:"Text",      Hidden:1, Width:0,    Align:"Left",    ColMerge:0,   SaveName:"YPROD_QTY" },
-                               {Type:"Text",      Hidden:1, Width:0,    Align:"Left",    ColMerge:0,   SaveName:"MS_PROD_DT" },
-                               {Type:"Combo",     Hidden:0, Width:80,   Align:"Left",    ColMerge:0,   SaveName:"DEV_STEP",             KeyField:1 },
-                               {Type:"Text",      Hidden:0, Width:28,   Align:"Center",  ColMerge:0,   SaveName:"DEV_STEP_FIX" },
-                               {Type:"Combo",     Hidden:0, Width:60,   Align:"Left",    ColMerge:0,   SaveName:"ITEM",                 KeyField:1 },
-                               {Type:"Combo",     Hidden:0, Width:90,   Align:"Left",    ColMerge:0,   SaveName:"SUB_ITEM",             KeyField:1 },
-                               {Type:"Text",      Hidden:1, Width:0,    Align:"Left",    ColMerge:0,   SaveName:"MAKE_VEND_CD" },
-                               {Type:"Text",      Hidden:1, Width:0,    Align:"Left",    ColMerge:0,   SaveName:"RMKS" },
-                               {Type:"Text",      Hidden:1, Width:0,    Align:"Left",    ColMerge:0,   SaveName:"PJT_FIX" },
-                               {Type:"Text",      Hidden:0, Width:60,   Align:"Center",  ColMerge:0,   SaveName:"BOM_FINISH" },
-                               {Type:"Text",      Hidden:0, Width:60,   Align:"Center",  ColMerge:0,   SaveName:"CAL_FINISH" },
-                               {Type:"Text",      Hidden:0, Width:75,   Align:"Center",  ColMerge:0,   SaveName:"UPD_DT" },
-                               {Type:"Text",      Hidden:0, Width:50,   Align:"Center",  ColMerge:0,   SaveName:"WRITER" },
-                               {Type:"Text",      Hidden:0, Width:55,   Align:"Center",  ColMerge:0,   SaveName:"DEV_USER_NM" },
-                               {Type:"Text",      Hidden:0, Width:75,   Align:"Center",  ColMerge:0,   SaveName:"DEV_USER_UPD_DT" },
-                               {Type:"Text",      Hidden:0, Width:30,   Align:"Center",  ColMerge:0,   SaveName:"ORDER_YN" },
-                               {Type:"Text",      Hidden:0, Width:75,   Align:"Center",  ColMerge:0,   SaveName:"CONFIRM_DT" },
-                               {Type:"Text",      Hidden:0, Width:50,   Align:"Center",  ColMerge:0,   SaveName:"CONFIRM_USER" },
-                               {Type:"Text",      Hidden:1, Width:50,   Align:"Center",  ColMerge:0,   SaveName:"PMS_PROJECTID" },
-                               {Type:"Text",      Hidden:1, Width:0,    Align:"Left",    ColMerge:0,   SaveName:"BOM_FINISH_FLAG" },
-                               {Type:"Text",      Hidden:1, Width:0,    Align:"Left",    ColMerge:0,   SaveName:"CRT_USER_ID" },
-                               {Type:"Text",      Hidden:1, Width:0,    Align:"Left",    ColMerge:0,   SaveName:"UPD_USER_ID" },
-                               {Type:"Text",      Hidden:1, Width:50,   Align:"Left",    ColMerge:0,   SaveName:"START_DT_1" },
-                               {Type:"Text",      Hidden:1, Width:50,   Align:"Left",    ColMerge:0,   SaveName:"ETC_RMKS_1" },
-                               {Type:"Text",      Hidden:1, Width:50,   Align:"Left",    ColMerge:0,   SaveName:"BOM_FIN_DESIGN_USER" },
-                               {Type:"Text",      Hidden:1, Width:50,   Align:"Left",    ColMerge:0,   SaveName:"BOM_FIN_DESIGN_DT" } ];
-                   
-                   InitColumns(cols);
-                   SetEditable(0);
-                   SetColProperty("BUY_VEND_CD", {ComboText:"|<%=combo_buyvend.getIBComboData(1)%>", ComboCode:"|<%=combo_buyvend.getIBComboData(0)%>"} );
-                   SetColProperty("PJT_NM", {ComboText:"|<%=combo_pjtcar.getIBComboData(1)%>", ComboCode:"|<%=combo_pjtcar.getIBComboData(0)%>"} );
-                   SetColProperty("DEV_STEP", {ComboText:"|<%=combo_devstep.getIBComboData(1)%>", ComboCode:"|<%=combo_devstep.getIBComboData(0)%>"} );
-                   SetColProperty("ITEM", {ComboText:"|<%=combo_item.getIBComboData(1)%>", ComboCode:"|<%=combo_item.getIBComboData(0)%>"} );
-                   SetColProperty("SUB_ITEM", {ComboText:"|<%=combo_subitem.getIBComboData(1)%>", ComboCode:"|<%=combo_subitem.getIBComboData(0)%>"} );
-                   SetCountPosition(3);<%--pagecountposition--%>
-                   SetPagingPosition(2);<%--page navi position--%>
-                   SetEditableColorDiff(0);//비할성화row 컬러표시X
-                   SetActionMenu("<%=sActionMenu%>");
-                  }
+                with(SHEET_MTRL){
+                    SetConfig( { SearchMode:2, MergeSheet:5, Page:50, FrozenCol:0, DataRowMerge:1 } );
+          var info    = { Sort:0, ColMove:0, HeaderCheck:1, ColResize:1 };
+          var headers = [  
+                         {Text: "<%=mlang.get("G_STATUS")%>|<%=mlang.get("SEQ2")%>|"+
+                                "<%=mlang.get("MTRL_TYPE")%>|<%=mlang.get("PROD_CD")%>|"+
+                                "<%=mlang.get("PACK_GB")%>|"+
+                                "<%=mlang.get("PROD_N_MTRL_NM")%>|"+
+                                "<%=mlang.get("STEN_PRICE")%>|<%=mlang.get("PYUNGRYANG")%>|<%=mlang.get("GOAL_WEIGHT")%>|"+
+                                "<%=mlang.get("COMP_QTY")%>|<%=mlang.get("PRICE")%>|"+
+                                "<%=mlang.get("UNIT")%>|<%=mlang.get("LOSS_RATE")%>|<%=mlang.get("LOSS_AMT")%>|"+
+                                "<%=mlang.get("MTRL_AMT")%>|"+
+                                "MTRL_QTY|IN_COMP_QTY|CAL_CHG|SCRAP_QTY|SCRAP_PRICE|SCRAP_REC_RATE|SCRAP_AMT|"+
+                                "<%=mlang.get("CAL_SEQ")%>|<%=mlang.get("MTRL_NM_CD)")%>|<%=mlang.get("CLASS")%>|<%=mlang.get("PROD_TYPE")%>|"+
+                                "ATTR1|ATTR7|ATTR8|ATTR9|ATTR10|ATTR11|ATTR12|ATTR13|ATTR14|<%=mlang.get("BAD")%>"
+                          ,Align:"Center" }];
+          InitHeaders(headers, info);
+          var cols = [ {Type:"Status",    Hidden:1, Width:30,   Align:"Center",  ColMerge:1,   SaveName:"SSTATUS_mtrl" },
+                           {Type:"Seq",       Hidden:0, Width:30,   Align:"Center",  ColMerge:0,   SaveName:"sSeq" },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Center",  ColMerge:0,   SaveName:"MTRL_TYPE",         KeyField:0 },
+                           {Type:"Text",      Hidden:0, Width:75,   Align:"Center",  ColMerge:0,   SaveName:"MTRL_CD",           KeyField:0,   CalcLogic:"",   Format:"",            PointCount:0,   UpdateEdit:0,   InsertEdit:0 },
+                           {Type:"Combo",     Hidden:0, Width:65,   Align:"Center",  ColMerge:0,   SaveName:"CHAR_ATTR2_MTRL",   KeyField:0,   CalcLogic:"",   Format:"",            PointCount:0,   UpdateEdit:0,   InsertEdit:0 },
+                           {Type:"Text",      Hidden:0, Width:170,  Align:"Left",    ColMerge:0,   SaveName:"MTRL_NM_DIS",       KeyField:0,   CalcLogic:"",   Format:"",            PointCount:0,   UpdateEdit:0,   InsertEdit:0 },
+                           {Type:"Text",      Hidden:0, Width:60,   Align:"Right",   ColMerge:0,   SaveName:"CHAR_ATTR3_MTRL",   KeyField:0,   CalcLogic:"",   Format:"",            PointCount:0,   UpdateEdit:0,   InsertEdit:0 },
+                           {Type:"Text",      Hidden:0, Width:60,   Align:"Right",   ColMerge:0,   SaveName:"CHAR_ATTR4_MTRL",   KeyField:0,   CalcLogic:"",   Format:"",            PointCount:0,   UpdateEdit:0,   InsertEdit:0 },
+                           {Type:"Text",      Hidden:0, Width:60,   Align:"Right",   ColMerge:0,   SaveName:"CHAR_ATTR5_MTRL",   KeyField:0,   CalcLogic:"",   Format:"",            PointCount:0,   UpdateEdit:0,   InsertEdit:0 },
+                           {Type:"Float",     Hidden:0, Width:70,   Align:"Right",   ColMerge:0,   SaveName:"NET_COMP_QTY",      KeyField:0,   CalcLogic:"",   Format:"NullFloat",   PointCount:2,   UpdateEdit:1,   InsertEdit:1 },
+                           {Type:mtrlPriType, Hidden:0, Width:90,   Align:"Right",   ColMerge:1,   SaveName:"MTRL_PRICE",        KeyField:0,   CalcLogic:"",   Format:mtrlPriFormat, PointCount:mtrlPriPoint, UpdateEdit:edityn,  InsertEdit:edityn   },
+                           {Type:"Combo",     Hidden:0, Width:30,   Align:"Center",  ColMerge:0,   SaveName:"UNIT_CD",           KeyField:0,   CalcLogic:"",   Format:"",            PointCount:0,   UpdateEdit:0,   InsertEdit:0 },
+                           {Type:"Float",     Hidden:0, Width:60,   Align:"Right",   ColMerge:0,   SaveName:"LOSS_RATE",         KeyField:0,   CalcLogic:"",   Format:"Float",       PointCount:1,   UpdateEdit:0,   InsertEdit:0 },
+                           {Type:"Float",     Hidden:0, Width:80,   Align:"Right",   ColMerge:0,   SaveName:"CHAR_ATTR6_MTRL",   KeyField:0,   CalcLogic:"",   Format:"Float",       PointCount:2,   UpdateEdit:0,   InsertEdit:0 },
+                           {Type:mtrlType,    Hidden:0, Width:90,   Align:"Right",   ColMerge:1,   SaveName:"MTRL_AMT",          KeyField:0,   CalcLogic:"",   Format:mtrlFormat,    PointCount:mtrlPoint,    UpdateEdit:0,       InsertEdit:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"MTRL_QTY",          KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"IN_COMP_QTY",       KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"CAL_CHG",           KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"SCRAP_QTY",         KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"SCRAP_PRICE",       KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"SCRAP_REC_RATE",    KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"SCRAP_AMT",         KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"CAL_SEQ_MTRL",      KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"MTRL_NM",           KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"CLASS_CD_MTRL",     KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"PROC_TYPE_MTRL",    KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"CHAR_ATTR1_MTRL",   KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"CHAR_ATTR7_MTRL",   KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"CHAR_ATTR8_MTRL",   KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"CHAR_ATTR9_MTRL",   KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"CHAR_ATTR10_MTRL",  KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"CHAR_ATTR11_MTRL",  KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"CHAR_ATTR12_MTRL",  KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"CHAR_ATTR13_MTRL",  KeyField:0 },
+                           {Type:"Text",      Hidden:1, Width:0,    Align:"Right",   ColMerge:0,   SaveName:"CHAR_ATTR14_MTRL",  KeyField:0 },
+                           {Type:"Int",       Hidden:0, Width:30,   Align:"Center",  ColMerge:0,   SaveName:"CHAR_ATTR15_MTRL",  KeyField:0,   CalcLogic:"",   Format:"Integer",     PointCount:0 } ];
+          InitColumns(cols);
+          SetColProperty("UNIT_CD", {ComboText:"<%=comboUnitCd.getIBComboData(1)%>", ComboCode:"<%=comboUnitCd.getIBComboData(0)%>"});
+          <%--단위--%>
+                    SetSheetFontName("굴림");
+          //전체 글자체
+                    SetExtendLastCol(1);
+          //마지막컬럼맞춤 
+                    if(edityn != "true") SetEditableColorDiff(0);
+          }
                 </textarea>
             </div>
             <!-- button -->
