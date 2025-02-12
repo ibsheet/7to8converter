@@ -644,7 +644,11 @@ function IBS_InitSheet(sheetId, createOption){
                                 tempcol["Header"][tempcol["Header"].length-1] = {Value:headerStr,HeaderCheck:1};
                             break;   
                         case "Hidden":
-                            tempcol["Visible"] = eval(itemValue)?0:1;
+                            if(typeof itemValue == "string" && itemValue.startsWith("@@")){
+                                tempcol["Visible"] =  "@@!"+itemValue.substr(2);
+                            }else{
+                                tempcol["Visible"] =  eval(itemValue)?0:1;
+                            }
                             break;
                         case "SaveName":
                             if(Cols[c]["Type"]!="Seq")
