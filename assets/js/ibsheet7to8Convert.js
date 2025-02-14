@@ -271,11 +271,15 @@ function myEval(str) {
     }catch(e){
         if(e.name == "ReferenceError"){
             var newVal = e.message.substring(0, e.message.indexOf(" is not defined"));
-            console.log(e.message);
+            
             window[newVal] = "@@"+newVal+"@@";
             return false;
+        }else if(e.name == "TypeError" && e.message.indexOf(" is not a function")>-1){
+            var newVal = e.message.substring(0, e.message.indexOf(" is not a function"));
+            window[newVal] = function(){};
+            return false;
         }else{
-            console.log(e.message);
+            console.log(e);
         }
 
         return true;
