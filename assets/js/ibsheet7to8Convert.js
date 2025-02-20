@@ -489,6 +489,18 @@ function IBS_InitSheet(sheetId, createOption){
                     delete Cols[c]["UpdateEdit"];
                 }
 
+                // 둘다 true 인 경우에는 없애자
+                if(tempcol["AddEdit"] && tempcol["ChangeEdit"]){
+                    delete tempcol["AddEdit"];
+                    delete tempcol["ChangeEdit"];
+                }
+                // 둘다 false 인 경우에는 CanEdit:0을 넣자
+                if(!tempcol["AddEdit"] && !tempcol["ChangeEdit"]){
+                    delete tempcol["AddEdit"];
+                    delete tempcol["ChangeEdit"];
+                    tempcol["CanEdit"] = 0;
+                }
+
 
                 // if(typeof Cols[c]["InsertEdit"] != "undefined" && !Cols[c]["InsertEdit"] && typeof Cols[c]["UpdateEdit"] != "undefined" && !Cols[c]["UpdateEdit"]){
                 //     tempcol["CanEdit"] = 0;
@@ -659,7 +671,9 @@ function IBS_InitSheet(sheetId, createOption){
                                 tempcol["Name"] = itemValue;
                             break;
                         case "KeyField":
-                        tempcol["Required"] = itemValue;
+                            if(itemValue) {
+                                tempcol["Required"] = itemValue;
+                            }
                             break;
                         case "AcceptKeys":
                             _IBSheet.v7.convertAcceptKeys(tempcol,itemValue);
@@ -832,10 +846,16 @@ function IBS_InitSheet(sheetId, createOption){
                             tempcol["Type"] = "Lines";
                             break;
                         case "PointCount":
-                            if((tempcol["Type"]=="Int" || tempcol["Type"] == "Float") &&   itemValue > 0){
-                                tempcol["Format"] = "#,###.".padEnd(6+itemValue,"#");
-                            }else{
-                                tempcol["PointCount"] = itemValue;
+                            if(itemValue) {
+
+                                // if((tempcol["Type"]=="Int" || tempcol["Type"] == "Float") &&   itemValue > 0){
+                                //     tempcol["Format"] = "#,###.".padEnd(6+itemValue,"#");
+                                // }else{
+                                //     tempcol["PointCount"] = itemValue;
+                                // }
+                                if(typeof itemValue == "string" && itemValue.startsWith("@@")) itemValue = itemValue.substring(2, itemValue.length -2);
+
+                                tempcol["Format"] = "@@getPointCount("+itemValue+")@@"
                             }
                             break;
                         case "PopupButton":
