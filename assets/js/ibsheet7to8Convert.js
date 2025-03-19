@@ -30,8 +30,8 @@ function findSheetId(){
     // 시트가 생성되는 el 찾기
     var pos = legacyCode.search(/createIBSheet.\(/g)
     if(pos>-1){
-        var pos2 = legacyCode.indexOf("),",pos);
-        document.querySelector("#elObj").value = legacyCode.substring(pos+15 , pos2+1);
+        var pos2 = legacyCode.indexOf(",",pos);
+        document.querySelector("#elObj").value = legacyCode.substring(pos+15 , pos2);
     }else{
         document.querySelector("#elObj").value = "";
     }
@@ -847,15 +847,17 @@ function IBS_InitSheet(sheetId, createOption){
                             break;
                         case "PointCount":
                             if(itemValue) {
+                                if(typeof itemValue == "number") {
 
-                                // if((tempcol["Type"]=="Int" || tempcol["Type"] == "Float") &&   itemValue > 0){
-                                //     tempcol["Format"] = "#,###.".padEnd(6+itemValue,"#");
-                                // }else{
-                                //     tempcol["PointCount"] = itemValue;
-                                // }
-                                if(typeof itemValue == "string" && itemValue.startsWith("@@")) itemValue = itemValue.substring(2, itemValue.length -2);
-
-                                tempcol["Format"] = "@@getPointCount("+itemValue+")@@"
+                                    if((tempcol["Type"]=="Int" || tempcol["Type"] == "Float") &&   itemValue > 0){
+                                        tempcol["Format"] = "#,###.".padEnd(6+itemValue,"#");
+                                    }else{
+                                        tempcol["PointCount"] = itemValue;
+                                    }
+                                }else{
+                                    if(typeof itemValue == "string" && itemValue.startsWith("@@")) itemValue = itemValue.substring(2, itemValue.length -2);
+                                    tempcol["Format"] = "@@getPointCount("+itemValue+")@@"
+                                }
                             }
                             break;
                         case "PopupButton":
